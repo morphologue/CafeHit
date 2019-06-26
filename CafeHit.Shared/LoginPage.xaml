@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20,0,20,0">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20,20,20,0">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -14,8 +14,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Text="CaféHit" TextWrapping="Wrap" FontSize="45" FontFamily="Constantia" FontWeight="Bold" HorizontalAlignment="Center" Grid.Row="0" Margin="0,0,0,32"/>
-        <TextBox Text="{x:Bind ViewModel.UserName, Mode=TwoWay}" PlaceholderText="User name" Grid.Row="1" Margin="0,0,0,16"/>
-        <PasswordBox Password="{x:Bind ViewModel.Password, Mode=TwoWay}" PlaceholderText="Password" Grid.Row="2" Margin="0,0,0,16"/>
+        <TextBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=OneWay}" Text="{x:Bind ViewModel.UserName, Mode=TwoWay}" PlaceholderText="User name" Grid.Row="1" Margin="0,0,0,16"/>
+        <PasswordBox IsEnabled="{x:Bind ViewModel.IsEnabled, Mode=OneWay}" Password="{x:Bind ViewModel.Password, Mode=TwoWay}" PlaceholderText="Password" Grid.Row="2" Margin="0,0,0,16"/>
         <Button IsEnabled="{x:Bind ViewModel.IsValid}" Content="Log in" Grid.Row="3" HorizontalAlignment="Stretch" Margin="0,16,0,0" Click="LoginButton_OnClick"/>
     </Grid>
 </Page>

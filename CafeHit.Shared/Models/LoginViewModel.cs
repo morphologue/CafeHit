@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 
 namespace CafeHit.Shared.Models
 {
@@ -7,6 +8,7 @@ namespace CafeHit.Shared.Models
     {
         private string _userName;
         private string _password;
+        private bool _isEnabled;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -39,18 +41,33 @@ namespace CafeHit.Shared.Models
             }
         }
 
-        public bool IsValid => !string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password);
+        [JsonIgnore]
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsValid));
+            }
+        }
+
+        public bool IsValid => IsEnabled && !string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password);
 
         public void Reset()
         {
             UserName = "";
             Password = "";
+            IsEnabled = true;
         }
 
         public void Set(LoginViewModel other)
         {
             UserName = other.UserName;
             Password = other.Password;
+            IsEnabled = other.IsEnabled;
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

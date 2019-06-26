@@ -1,7 +1,10 @@
-﻿using Windows.Storage;
+﻿using System;
+using System.Net.Http;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using CafeHit.Shared.Extensions;
 using CafeHit.Shared.Helpers;
 using CafeHit.Shared.Models;
 
@@ -32,17 +35,26 @@ namespace CafeHit.Shared
             }
         }
 
-        private void LoginButton_OnClick(object sender, RoutedEventArgs e)
+        private async void LoginButton_OnClick(object sender, RoutedEventArgs e)
         {
-            // Disable the button.
-            var userName = ViewModel.UserName;
-            var password = ViewModel.Password;
-            ViewModel.Reset();
+            ViewModel.IsEnabled = false;
+            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "/coffeefreedom"))
+            {
+                request.SetAuth(ViewModel.UserName, ViewModel.Password);
+                using (HttpResponseMessage response = await ApiHelper.Client.SendAsync(request))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        PersistenceHelper.Serialize(ViewModel);
+                        ViewModel.Reset();
+                        Frame.Navigate(typeof(MainPage));
+                        return;
+                    }
 
-            // TODO: Call API
-
-            PersistenceHelper.Serialize(ViewModel);
-            Frame.Navigate(typeof(MainPage));
+                    ViewModel.IsEnabled = true;
+                    await new MessageDialog(await response.Content.ReadAsStringAsync(), "Error").ShowAsync();
+                }
+            }
         }
     }
 }

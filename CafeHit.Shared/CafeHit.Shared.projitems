@@ -18,6 +18,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\HttpRequestMessageExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ApiHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\MainViewModelExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\PersistenceHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LoginPage.xaml.cs" />
@@ -52,6 +54,9 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="C:\Users\thega\repos\CafeHit\CafeHit.Shared\BlankPage1.xaml.cs">
+      <DependentUpon>BlankPage1.xaml</DependentUpon>
+    </Compile>
     <Compile Update="C:\Users\thega\repos\CafeHit\CafeHit.Shared\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>

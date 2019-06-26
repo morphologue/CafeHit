@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 
 namespace CafeHit.Shared.Models
 {
@@ -22,6 +23,7 @@ namespace CafeHit.Shared.Models
         private bool _isCustomisationCaramel;
         private bool _isCustomisationHazelnut;
         private bool _isCustomisationExtraChoc;
+        private bool _canOrder;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -217,6 +219,18 @@ namespace CafeHit.Shared.Models
             }
         }
 
+        [JsonIgnore]
+        public bool CanOrder
+        {
+            get => _canOrder;
+            set
+            {
+                if (value == _canOrder) return;
+                _canOrder = value;
+                OnPropertyChanged();
+            }
+        }
+
         public void Reset()
         {
             Variant = 7;    // Latte
@@ -236,6 +250,7 @@ namespace CafeHit.Shared.Models
             IsCustomisationCaramel = false;
             IsCustomisationHazelnut = false;
             IsCustomisationExtraChoc = false;
+            CanOrder = true;
         }
 
         public void Set(MainViewModel other)

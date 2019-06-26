@@ -1,8 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Net.Http;
+using System.Text;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using CafeHit.Shared.Extensions;
 using CafeHit.Shared.Helpers;
 using CafeHit.Shared.Models;
+using Newtonsoft.Json;
 
 namespace CafeHit.Shared
 {
@@ -23,9 +29,24 @@ namespace CafeHit.Shared
             Frame.Navigate(typeof(LoginPage), true);
         }
 
-        private void OrderButton_OnClick(object sender, RoutedEventArgs e)
+        private async void OrderButton_OnClick(object sender, RoutedEventArgs e)
         {
-            // TODO: Disable the button then actually order.
+            ViewModel.CanOrder = false;
+
+            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "/coffeefreedom"))
+            {
+                LoginViewModel cred = PersistenceHelper.Deserialize<LoginViewModel>();
+                request.SetAuth(cred.UserName, cred.Password);
+                string body = JsonConvert.SerializeObject(ViewModel.ToModel());
+                request.Content = new StringContent(body, Encoding.UTF8, "application/json");
+                using (HttpResponseMessage response = await ApiHelper.Client.SendAsync(request))
+                {
+                    ViewModel.CanOrder = true;
+                    string message = response.IsSuccessStatusCode ? "Order placed" : await response.Content.ReadAsStringAsync();
+                    string title = response.IsSuccessStatusCode ? "Success" : "Error";
+                    await new MessageDialog(message, title).ShowAsync();
+                }
+            }
         }
 
         private void ViewModel_OnPropertyChanged(object target, PropertyChangedEventArgs e)

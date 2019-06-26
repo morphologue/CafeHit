@@ -7,7 +7,7 @@
     mc:Ignorable="d">
     
     <ScrollViewer>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20,0,20,0">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20,20,20,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
@@ -101,7 +101,7 @@
                 <CheckBox IsChecked="{x:Bind ViewModel.IsCustomisationHazelnut, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" Margin="0,0,0,16" Content="Hazelnut"/>
                 <CheckBox IsChecked="{x:Bind ViewModel.IsCustomisationExtraChoc, Mode=TwoWay}" Grid.Row="3" Grid.Column="2" Margin="0,0,0,16" Content="Extra Choc"/>
             </Grid>
-            <Button Click="OrderButton_OnClick" Content="Order" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Stretch" Grid.ColumnSpan="2"  Margin="0,0,0,16"/>
+            <Button Click="OrderButton_OnClick" IsEnabled="{x:Bind ViewModel.CanOrder, Mode=OneWay}" Content="Order" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Stretch" Grid.ColumnSpan="2"  Margin="0,0,0,16"/>
         </Grid>
     </ScrollViewer>
 </Page>
